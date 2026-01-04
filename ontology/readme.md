@@ -1,4 +1,36 @@
 ## ontology layer for entity specification, interpreter
+### ontology construction
+ontology configuration:
+````json
+{
+   "env":{
+      "db_connection":"hr"
+   },
+   "enum":{
+      "Gender":["Male","Female"]
+   },
+   "ontology":[{
+      "class":"Employee",
+      "source":"employee",
+      "connection": "$db_connection",
+      "name":"String",
+      "age":"Integer",
+      "onbording_data":"String",
+      "gender":"Male.Male"
+   }]
+}
+````
+### parser
+system will write outline code base on the configuration. https://github.com/WillCaptain/outline
+outline Employee = {
+   name:String,
+   explain: String->String,
+}
+
+
+### compile json to entitir code
+
+### ontology operations via entitir code
 self defined ontology specifications. it would be like this: 
 1. Employee(id="1") //query entity by id, will get only one employee
 2. Employee
@@ -16,3 +48,11 @@ self defined ontology specifications. it would be like this:
 6. Employee
    .created(my_action(emp)) //event
 7. global_action(Employee(id="1").get)  //global action
+
+### compile entitir code into outline code
+
+### type inference
+gcp will do the type inference
+
+### SQL interpration
+interpret into SQL
