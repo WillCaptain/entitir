@@ -1,14 +1,14 @@
-# Ontologer
+# Entitir
 
-**Ontologer** is a **deterministic ontology interpreter** for building **ontology-first data application systems**.
+**Entitir** is a **deterministic ontology interpreter** for building **ontology-first data application systems**.
 
 It provides a **governed authority layer** between raw data and real-world actions, enabling **AI-assisted reasoning without sacrificing correctness, safety, or auditability**.
 
-Ontologer is inspired by large-scale ontology-driven systems (e.g. Palantir-style architectures), but is **fully open-source, modular, and interpreter-centric**.
+Entitir is inspired by large-scale ontology-driven systems (e.g. Palantir-style architectures), but is **fully open-source, modular, and interpreter-centric**.
 
 ---
 
-## Why Ontologer Exists
+## Why Entitir Exists
 
 Modern data systems face a structural problem:
 
@@ -23,16 +23,16 @@ As a result:
 * Permissions are bypassed
 * Decisions become non-explainable
 
-**Ontologer solves this by acting as the authority boundary.**
+**Entitir solves this by acting as the authority boundary.**
 
 > AI may *propose*.
-> Ontologer *decides*.
+> Entitir *decides*.
 
 ---
 
 ## System Architecture (5 Layers)
 
-Ontologer is designed as part of a **five-layer ontology-first data application OS**:
+Entitir is designed as part of a **five-layer ontology-first data application OS**:
 
 ```
 ┌───────────────────────────┐
@@ -48,7 +48,7 @@ Ontologer is designed as part of a **five-layer ontology-first data application 
 └────────────▲──────────────┘
              │
 ┌────────────┴──────────────┐
-│ Ontology Layer  ← Ontologer│
+│ Ontology Layer  ← Entitir│
 │ Objects / Relations       │
 │ Actions / Policies        │
 │ Interpreter (Authority)   │
@@ -78,9 +78,9 @@ Ontologer is designed as part of a **five-layer ontology-first data application 
 
 ---
 
-## What Ontologer Is (and Is Not)
+## What Entitir Is (and Is Not)
 
-### Ontologer **IS**
+### Entitir **IS**
 
 * an ontology interpreter
 * a decision kernel
@@ -88,7 +88,7 @@ Ontologer is designed as part of a **five-layer ontology-first data application 
 * a semantic execution engine
 * safe middleware between AI and the real world
 
-### Ontologer **IS NOT**
+### Entitir **IS NOT**
 
 * a graph database
 * a BI tool
@@ -100,7 +100,7 @@ Ontologer is designed as part of a **five-layer ontology-first data application 
 
 ## Core Concepts
 
-Ontologer standardizes **semantics and authority**, not syntax.
+Entitir standardizes **semantics and authority**, not syntax.
 
 ### 1. Objects
 
@@ -199,7 +199,7 @@ Policies depend on:
 
 ## Ontology Operations
 
-Ontologer defines a **small, strict set of operations**.
+Entitir defines a **small, strict set of operations**.
 
 ### Read Operations
 
@@ -231,7 +231,7 @@ All operations are **validated and enforced by the interpreter**.
 
 ## The Interpreter (The Core)
 
-Ontologer’s interpreter is the **kernel of the system**.
+Entitir’s interpreter is the **kernel of the system**.
 
 It guarantees:
 
@@ -248,7 +248,7 @@ LLMs **never bypass** the interpreter.
 
 ## AI Integration Philosophy
 
-Ontologer is **AI-compatible but AI-safe**.
+Entitir is **AI-compatible but AI-safe**.
 
 ### LLMs MAY
 
@@ -264,13 +264,13 @@ Ontologer is **AI-compatible but AI-safe**.
 * access raw datasets implicitly
 
 LLMs generate **intent**.
-Ontologer enforces **authority**.
+Entitir enforces **authority**.
 
 ---
 
 ## Events (Non-Authoritative)
 
-Ontologer emits events **after** state transitions:
+Entitir emits events **after** state transitions:
 
 * dataset updated
 * ontology state changed
@@ -288,7 +288,7 @@ Events **never decide**.
 
 ## Consistent Guarantees
 
-Ontologer enforces the following invariants:
+Entitir enforces the following invariants:
 
 * **Determinism** – same state, same result
 * **Explainability** – every decision has a “why”
@@ -297,7 +297,7 @@ Ontologer enforces the following invariants:
 * **Boundedness** – no unbounded scans or traversals
 * **Reversibility** – compensating actions where possible
 
-If a system violates these, it is **not Ontologer-compatible**.
+If a system violates these, it is **not Entitir-compatible**.
 
 ---
 
