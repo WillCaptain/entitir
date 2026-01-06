@@ -3,20 +3,25 @@
 ontology configuration:
 ````json
 {
-   "env":{
-      "db_connection":"hr"
-   },
+   "component":"hr_system",
    "ontology":[{
       "class":"Employee",
-      "source":"employee",
-      "connection": "$db_connection",
+      "id": "String",
       "name":"String",
       "age":"Integer",
       "onboarding_date":"String",
       "gender":"String",
       "report_to":"",
-      "do_action_1":"acion id"
-   }]
+      "change_report_manager_action":{
+
+      }
+   }],
+   "actions":[
+      {
+         "id":"action id",
+         
+      }
+   ]
 }
 ````
 ### parser
@@ -25,6 +30,7 @@ system will generate outline code base on the configuration. https://github.com/
 //macro will be interpreted in entitir interpreter, won't return x, the x here is for type inference
 let __macro_fetch__ = (x, condition:Bool)->x;
 let __macro_query__ = (x, condition:Bool)->[x];
+let __macro_call__ = (x,channel,method)->{};
 
 //this is created for the ontology configuration
 let employee = {
@@ -32,8 +38,8 @@ let employee = {
    gender="male",
    age=0,
    onbording_date="",
-   explain=""
-   do_action_1 = 
+   explain="",
+   do_action_1 = ()->__macro_action__(this,"do_action_1 id")
 };
 
 //query  a list ontologies
@@ -55,12 +61,11 @@ self defined ontology specifications. it would be like this:
    .first
    .explain(status) //explain attribute status
 4. Employee(id="1"||name="Will")
-   .do_action_1 //get one employee to do a action, action name is "do_acion_1"
+   .change_report_manager_action(Employee(id="2")) //get one employee to do a action, action name is "change_report_manager_action"
 5. Employee(id="1")
    .report_to //get relation. employee report_to manager, so report_to will get his manager
    .name  //get manager's name
-6. Employee
-   .created(my_action(emp)) //event
+6. Employee.create(id="1",name="Will") //class action
 7. global_action(Employee(id="1").get)  //global action
 
 ### compile entitir code into outline code
