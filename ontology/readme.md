@@ -4,22 +4,62 @@ ontology configuration:
 ````json
 {
    "component":"hr_system",
-   "ontology":[{
-      "class":"Employee",
-      "id": "String",
-      "name":"String",
-      "age":"Integer",
-      "onboarding_date":"String",
-      "gender":"String",
-      "report_to":"",
-      "change_report_manager_action":{
-
-      }
-   }],
-   "actions":[
+   "ontology":[
       {
-         "id":"action id",
-         
+         "attributes":{
+            "class":"Address",
+            "id": "String",
+            "description":"String",
+            "x":"Float",
+            "y":"Float",
+         }
+      },
+      {
+         "attributes":{
+            "class":"Employee",
+            "id": "String",
+            "name":"String",
+            "age":"Integer",
+            "birthday":"Date",
+            "gender":"String"
+         },
+         "relationships":[
+            {
+               "name": "report_to",
+               "target": "Employee",
+            },
+            {
+               "name": "live_in",
+               "target": "Address",
+            }  
+         ],
+         "actions":[
+            {
+               "name":"send birthday greeting",
+               "assessment":"birthday>now-day(3) && birthday<now",       
+               "intent":{
+                  "precondition":"birthday<now",
+                  "target": "Employee",
+                  "inputs":["name","birthday"]
+                  "action":"send_birthday_greeting"
+               }
+            }
+         ]
+      }
+   ]
+}
+
+{
+   "component":"common",
+   "ontology":[
+      {
+         "attributes":{
+            "class":"Address",
+            "id": "String",
+            "description":"String",
+            "x":"Float",
+            "y":"Float",
+         }
       }
    ]
 }
@@ -28,24 +68,59 @@ ontology configuration:
 system will generate outline code base on the configuration. https://github.com/WillCaptain/outline
 ````javascript
 //macro will be interpreted in entitir interpreter, won't return x, the x here is for type inference
-let __macro_fetch__ = (x, condition:Bool)->x;
-let __macro_query__ = (x, condition:Bool)->[x];
-let __macro_call__ = (x,channel,method)->{};
+module macro;
+let __macro_fetch__ = <a>(condition:Bool)->a;
+let __macro_query__ = <a>(condition:Bool)->[a];
+let __macro_create_intent__ = (x,channel,method)->{};
 
 //this is created for the ontology configuration
-let employee = {
-   name = "",
-   gender="male",
-   age=0,
-   onbording_date="",
-   explain="",
-   do_action_1 = ()->__macro_action__(this,"do_action_1 id")
+module common;
+outline Address = {
+   description: String,
+   x: Float,
+   y: Float
 };
 
-//query  a list ontologies
-let employee_query = (employee:Employee, query: Employee->[Employee]) ->{
-   query(employee) 
+let address = Address();
+
+let fetch_address = (condition:Bool)->{
+   __macro_fetch__<Address>(condition);
 };
+
+module hr_system;
+import * from common;
+
+outline Employee = {
+   id: String,
+   name: String,
+   gender: String,
+   age: Integer,
+   birthday: Date, 
+   explain: String,
+   _report_to: String,  //this is an extra attribute for relationship
+   _live_in: String
+};
+
+let employee = Employee();//empty entity for future reference
+
+let fetch_employee = (condition:Bool)->{
+   let result = __macro_fetch__<Employee>(condition);
+   result{
+      report_to = ()-> fetch_employee(employee.id==this._report_to),
+      live_in = ()-> fetch_address(address.id==this._live_in)
+   }
+};
+
+let query_employee = (condition:Bool)->{
+   let result = __macro_query__<Employee>(condition);
+   result.map(r->r{
+      report_to = ()-> fetch_employee(employee.id==this._report_to),
+      live_in = ()-> fetch_address(address.id==this._live_in)
+   })
+};
+
+
+
 ````
 
 ### compile json to entitir code
